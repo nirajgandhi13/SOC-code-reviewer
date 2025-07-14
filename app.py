@@ -34,17 +34,21 @@ Instructions:
 Internal JD:
 {jd_input}
 """
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": "You are a highly accurate immigration compliance analyst."},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=0.3,
-            max_tokens=1000
-        )
+from openai import OpenAI
 
-        output = response["choices"][0]["message"]["content"]
+client = OpenAI()
+
+response = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    messages=[
+        {"role": "system", "content": "You are a highly accurate immigration compliance analyst."},
+        {"role": "user", "content": prompt}
+    ],
+    temperature=0.3,
+    max_tokens=1000
+)
+
+output = response.choices[0].message.content
         st.success("Analysis complete.")
         st.markdown("### Review Result:")
         st.markdown(output)
