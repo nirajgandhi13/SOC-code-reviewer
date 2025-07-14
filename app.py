@@ -35,7 +35,7 @@ Internal JD:
 {jd_input}
 """
         response = openai.ChatCompletion.create(
-            model="gpt-4",
+            model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": "You are a highly accurate immigration compliance analyst."},
                 {"role": "user", "content": prompt}
