@@ -1,11 +1,11 @@
 import streamlit as st
 import openai
-import os
+
+# Load OpenAI API key from Streamlit secrets
+openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 st.set_page_config(page_title="SOC Code Reviewer", layout="wide")
 st.title("🤖 AI-Powered SOC Code Reviewer")
-
-openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 st.markdown("""
 Paste an internal job description below and the AI will:
@@ -35,9 +35,7 @@ Internal JD:
 {jd_input}
 """
 
-        from openai import OpenAI
-        client = OpenAI()
-
+        client = openai.OpenAI()
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
@@ -48,10 +46,9 @@ Internal JD:
             max_tokens=1000
         )
 
-        output = response.choices[0].message.content
         st.success("Analysis complete.")
         st.markdown("### Review Result:")
-        st.markdown(output)
+        st.markdown(response.choices[0].message.content)
 
 elif submit:
     st.warning("Please paste a job description to begin.")
